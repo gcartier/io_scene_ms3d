@@ -531,18 +531,19 @@ class Ms3dExporter():
 
             ##########################
             # remove the temporary data
-            blender_scene.objects.unlink(blender_mesh_object_temp)
+            # obsolete # blender_scene.objects.unlink(blender_mesh_object_temp)
             if blender_mesh_temp is not None:
-                blender_mesh_temp.user_clear()
+                # obsolete # blender_mesh_temp.user_clear()
                 blender_context.blend_data.meshes.remove(blender_mesh_temp)
             blender_mesh_temp = None
             if blender_mesh_object_temp is not None:
-                blender_mesh_temp = blender_mesh_object_temp.data.user_clear()
-                blender_mesh_object_temp.user_clear()
+                # obsolete # blender_mesh_temp = blender_mesh_object_temp.data.user_clear()
+                # obsolete # blender_mesh_object_temp.user_clear()
+                blender_mesh_temp = blender_mesh_object_temp.data
                 blender_context.blend_data.objects.remove(
                         blender_mesh_object_temp)
             if blender_mesh_temp is not None:
-                blender_mesh_temp.user_clear()
+                # obsolete # blender_mesh_temp.user_clear()
                 blender_context.blend_data.meshes.remove(blender_mesh_temp)
 
 
