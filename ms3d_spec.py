@@ -1907,10 +1907,13 @@ class Ms3dModel:
             pass
 
         except Exception:
-            type, value, traceback = exc_info()
-            debug_out.append("Ms3dModel.read - exception in optional try block,"
-                    " _progress={0}\n  type: '{1}'\n  value: '{2}'\n".format(
-                    _progress, type, value, traceback))
+            if self.options_verbose in Ms3dUi.VERBOSE_DEVELOPER:
+                raise
+            else:
+                type, value, traceback = exc_info()
+                debug_out.append("Ms3dModel.read - exception in optional try block,"
+                        " _progress={0}\n  type: '{1}'\n  value: '{2}'\n".format(
+                        _progress, type, value, traceback))
 
         else:
             pass
@@ -2015,11 +2018,14 @@ class Ms3dModel:
             self.model_ex_object.write(raw_io)
 
         except Exception:
-            type, value, traceback = exc_info()
-            debug_out.append("Ms3dModel.write - exception in optional try block"
-                    "\n  type: '{0}'\n  value: '{1}'\n".format(
-                    type, value, traceback))
-            pass
+            if self.options_verbose in Ms3dUi.VERBOSE_DEVELOPER:
+                raise
+            else:
+                type, value, traceback = exc_info()
+                debug_out.append("Ms3dModel.write - exception in optional try block"
+                        "\n  type: '{0}'\n  value: '{1}'\n".format(
+                        type, value, traceback))
+                pass
 
         else:
             pass

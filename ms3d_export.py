@@ -176,17 +176,20 @@ class Ms3dExporter():
                 print("##########################################################")
 
         except Exception:
-            type, value, traceback = exc_info()
-            if self.options_verbose in Ms3dUi.VERBOSE_NORMAL:
-                print("write - exception in try block\n  type: '{0}'\n"
-                        "  value: '{1}'".format(type, value, traceback))
-                if self.report:
-                    self.report({'WARNING', 'ERROR', }, "write - exception.")
-
-            if t2 is None:
-                t2 = time()
-
-            return False
+            if self.options_verbose in Ms3dUi.VERBOSE_DEVELOPER:
+                raise
+            else:
+                type, value, traceback = exc_info()
+                if self.options_verbose in Ms3dUi.VERBOSE_NORMAL:
+                    print("write - exception in try block\n  type: '{0}'\n"
+                            "  value: '{1}'".format(type, value, traceback))
+                    if self.report:
+                        self.report({'WARNING', 'ERROR', }, "write - exception.")
+    
+                if t2 is None:
+                    t2 = time()
+    
+                return False
 
         else:
             pass

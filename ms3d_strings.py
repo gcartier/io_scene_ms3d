@@ -195,6 +195,8 @@ ms3d_str = {
         'ENUM_VERBOSE_NORMAL_2': "",
         'ENUM_VERBOSE_MAXIMAL_1': "Maximal",
         'ENUM_VERBOSE_MAXIMAL_2': "",
+        'ENUM_VERBOSE_DEVELOPER_1': "Developer",
+        'ENUM_VERBOSE_DEVELOPER_2': "",
         'PROP_SMOOTHING_GROUP_INDEX': "Smoothing group id",
         'PROP_NAME_ROTATION_MODE' : "Bone Rotation Mode",
         'PROP_DESC_ROTATION_MODE' : "set the preferred rotation mode of bones",

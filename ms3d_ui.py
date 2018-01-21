@@ -92,10 +92,12 @@ class Ms3dUi:
     VERBOSE_MODE_NONE = 'NONE'
     VERBOSE_MODE_NORMAL = 'NORMAL'
     VERBOSE_MODE_MAXIMAL = 'MAXIMAL'
+    VERBOSE_MODE_DEVELOPER = 'DEVELOPER'
 
     VERBOSE_NONE = {}
     VERBOSE_NORMAL = {True, VERBOSE_MODE_NORMAL, VERBOSE_MODE_MAXIMAL, }
     VERBOSE_MAXIMAL = {True, VERBOSE_MODE_MAXIMAL, }
+    VERBOSE_DEVELOPER = {True, VERBOSE_MODE_DEVELOPER, }
 
     DEFAULT_VERBOSE = VERBOSE_MODE_NONE
 
@@ -287,6 +289,10 @@ class Ms3dImportOperator(Operator, ImportHelper):
                             ms3d_str['ENUM_VERBOSE_MAXIMAL_1'],
                             ms3d_str['ENUM_VERBOSE_MAXIMAL_2'],
                             ),
+                    (Ms3dUi.VERBOSE_MODE_DEVELOPER,
+                            ms3d_str['ENUM_VERBOSE_DEVELOPER_1'],
+                            ms3d_str['ENUM_VERBOSE_DEVELOPER_2'],
+                            ),
                     ),
             default=Ms3dUi.PROP_DEFAULT_VERBOSE,
             )
@@ -453,6 +459,10 @@ class Ms3dExportOperator(Operator, ExportHelper):
                     (Ms3dUi.VERBOSE_MODE_MAXIMAL,
                             ms3d_str['ENUM_VERBOSE_MAXIMAL_1'],
                             ms3d_str['ENUM_VERBOSE_MAXIMAL_2'],
+                            ),
+                    (Ms3dUi.VERBOSE_MODE_DEVELOPER,
+                            ms3d_str['ENUM_VERBOSE_DEVELOPER_1'],
+                            ms3d_str['ENUM_VERBOSE_DEVELOPER_2'],
                             ),
                     ),
             default=Ms3dUi.PROP_DEFAULT_VERBOSE,
