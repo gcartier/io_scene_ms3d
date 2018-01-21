@@ -65,7 +65,7 @@ class Ms3dSpec:
     MAX_VERTICES = 65534 # 0..65533; note: (65534???, 65535???)
     MAX_TRIANGLES = 65534 # 0..65533; note: (65534???, 65535???)
     MAX_GROUPS = 255 # 1..255; note: (0 default group)
-    MAX_MATERIALS = 128 # 0..127; note: (-1 no material)
+    MAX_MATERIALS = 256 # 0..127; note: (-1 no material)
     MAX_JOINTS = 256 # 0..127; note: (-1 no joint)
     MAX_SMOOTH_GROUP = 32 # 0..32; note: (0 no smoothing group)
     MAX_TEXTURE_FILENAME_SIZE = 128
@@ -121,7 +121,7 @@ class Ms3dSpec:
     # min, max, default values
     #
     NONE_VERTEX_BONE_ID = 255
-    NONE_GROUP_MATERIAL_INDEX = -1
+    NONE_GROUP_MATERIAL_INDEX = 255
 
     DEFAULT_HEADER = HEADER
     DEFAULT_HEADER_VERSION = 4
@@ -614,7 +614,7 @@ class Ms3dGroup:
         _number_triangles = Ms3dIo.read_word(raw_io)
         self._triangle_indices = Ms3dIo.read_array(
                 raw_io, Ms3dIo.read_word, _number_triangles)
-        self.material_index = Ms3dIo.read_sbyte(raw_io)
+        self.material_index = Ms3dIo.read_byte(raw_io)
         return self
 
     def write(self, raw_io):
@@ -624,7 +624,7 @@ class Ms3dGroup:
         Ms3dIo.write_array(
                 raw_io, Ms3dIo.write_word, self.number_triangles,
                 self.triangle_indices)
-        Ms3dIo.write_sbyte(raw_io, self.material_index)
+        Ms3dIo.write_byte(raw_io, self.material_index)
 
 
 ###############################################################################
