@@ -66,7 +66,7 @@ class Ms3dSpec:
     MAX_TRIANGLES = 65534 # 0..65533; note: (65534???, 65535???)
     MAX_GROUPS = 255 # 1..255; note: (0 default group)
     MAX_MATERIALS = 128 # 0..127; note: (-1 no material)
-    MAX_JOINTS = 128 # 0..127; note: (-1 no joint)
+    MAX_JOINTS = 256 # 0..127; note: (-1 no joint)
     MAX_SMOOTH_GROUP = 32 # 0..32; note: (0 no smoothing group)
     MAX_TEXTURE_FILENAME_SIZE = 128
 
@@ -120,7 +120,7 @@ class Ms3dSpec:
     #
     # min, max, default values
     #
-    NONE_VERTEX_BONE_ID = -1
+    NONE_VERTEX_BONE_ID = 255
     NONE_GROUP_MATERIAL_INDEX = -1
 
     DEFAULT_HEADER = HEADER
@@ -429,14 +429,14 @@ class Ms3dVertex:
     def read(self, raw_io):
         self.flags = Ms3dIo.read_byte(raw_io)
         self._vertex = Ms3dIo.read_array(raw_io, Ms3dIo.read_float, 3)
-        self.bone_id = Ms3dIo.read_sbyte(raw_io)
+        self.bone_id = Ms3dIo.read_byte(raw_io)
         self.reference_count = Ms3dIo.read_byte(raw_io)
         return self
 
     def write(self, raw_io):
         Ms3dIo.write_byte(raw_io, self.flags)
         Ms3dIo.write_array(raw_io, Ms3dIo.write_float, 3, self.vertex)
-        Ms3dIo.write_sbyte(raw_io, self.bone_id)
+        Ms3dIo.write_byte(raw_io, self.bone_id)
         Ms3dIo.write_byte(raw_io, self.reference_count)
 
 
@@ -1178,12 +1178,12 @@ class Ms3dVertexEx1:
 
 
     def read(self, raw_io):
-        self._bone_ids = Ms3dIo.read_array(raw_io, Ms3dIo.read_sbyte, 3)
+        self._bone_ids = Ms3dIo.read_array(raw_io, Ms3dIo.read_byte, 3)
         self._weights = Ms3dIo.read_array(raw_io, Ms3dIo.read_byte, 3)
         return self
 
     def write(self, raw_io):
-        Ms3dIo.write_array(raw_io, Ms3dIo.write_sbyte, 3, self.bone_ids)
+        Ms3dIo.write_array(raw_io, Ms3dIo.write_byte, 3, self.bone_ids)
         Ms3dIo.write_array(raw_io, Ms3dIo.write_byte, 3, self.weights)
 
 
@@ -1253,13 +1253,13 @@ class Ms3dVertexEx2:
 
 
     def read(self, raw_io):
-        self._bone_ids = Ms3dIo.read_array(raw_io, Ms3dIo.read_sbyte, 3)
+        self._bone_ids = Ms3dIo.read_array(raw_io, Ms3dIo.read_byte, 3)
         self._weights = Ms3dIo.read_array(raw_io, Ms3dIo.read_byte, 3)
         self.extra = Ms3dIo.read_dword(raw_io)
         return self
 
     def write(self, raw_io):
-        Ms3dIo.write_array(raw_io, Ms3dIo.write_sbyte, 3, self.bone_ids)
+        Ms3dIo.write_array(raw_io, Ms3dIo.write_byte, 3, self.bone_ids)
         Ms3dIo.write_array(raw_io, Ms3dIo.write_byte, 3, self.weights)
         Ms3dIo.write_dword(raw_io, self.extra)
 
@@ -1340,13 +1340,13 @@ class Ms3dVertexEx3:
 
 
     def read(self, raw_io):
-        self._bone_ids = Ms3dIo.read_array(raw_io, Ms3dIo.read_sbyte, 3)
+        self._bone_ids = Ms3dIo.read_array(raw_io, Ms3dIo.read_byte, 3)
         self._weights = Ms3dIo.read_array(raw_io, Ms3dIo.read_byte, 3)
         self.extra = Ms3dIo.read_dword(raw_io)
         return self
 
     def write(self, raw_io):
-        Ms3dIo.write_array(raw_io, Ms3dIo.write_sbyte, 3, self.bone_ids)
+        Ms3dIo.write_array(raw_io, Ms3dIo.write_byte, 3, self.bone_ids)
         Ms3dIo.write_array(raw_io, Ms3dIo.write_byte, 3, self.weights)
         Ms3dIo.write_dword(raw_io, self.extra)
 
