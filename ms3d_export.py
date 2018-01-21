@@ -739,16 +739,18 @@ class Ms3dExporter():
                     loc = m.to_translation()
                     rot = m.to_euler('XZY')
 
-                    ms3d_joint.translation_key_frames.append(
-                            Ms3dTranslationKeyframe(
-                                    current_time, self.joint_correction(loc)
-                                    )
-                            )
-                    ms3d_joint.rotation_key_frames.append(
-                            Ms3dRotationKeyframe(
-                                    current_time, self.joint_correction(rot)
-                                    )
-                            )
+                    if not self.vertex_near_zero(loc):
+                        ms3d_joint.translation_key_frames.append(
+                                Ms3dTranslationKeyframe(
+                                        current_time, self.joint_correction(loc)
+                                        )
+                                )
+                    if not self.vertex_near_zero(rot):
+                        ms3d_joint.rotation_key_frames.append(
+                                Ms3dRotationKeyframe(
+                                        current_time, self.joint_correction(rot)
+                                        )
+                                )
 
             blender_scene.frame_set(frame_temp)
 
@@ -898,6 +900,11 @@ class Ms3dExporter():
             return True
         else:
             return False
+
+
+    ###########################################################################
+    def vertex_near_zero(self, value):
+        return self.near_zero(value[0]) and self.near_zero(value[1]) and self.near_zero(value[2])
 
 
     ###########################################################################
