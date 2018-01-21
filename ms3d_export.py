@@ -664,8 +664,8 @@ class Ms3dExporter():
                 mat = ms3d_joint.__matrix
                 loc = mat.to_translation()
                 rot = mat.to_euler('XZY')
-                ms3d_joint._position = self.joint_correction(loc)
-                ms3d_joint._rotation = self.joint_correction(rot)
+                ms3d_joint._position = self.zerofy_correction(self.joint_correction(loc))
+                ms3d_joint._rotation = self.zerofy_correction(self.joint_correction(rot))
 
                 ms3d_model._joints.append(ms3d_joint)
                 blender_to_ms3d_bones[blender_bone.name] = ms3d_joint
@@ -877,6 +877,27 @@ class Ms3dExporter():
     ###########################################################################
     def joint_correction(self, value):
         return (-value[0], value[2], value[1])
+
+
+    ###########################################################################
+    def zerofy_correction(self, value):
+        return (self.zerofy(value[0]), self.zerofy(value[1]), self.zerofy(value[2]))
+
+
+    ###########################################################################
+    def zerofy(self, value):
+        if self.near_zero(value):
+            return 0
+        else:
+            return value
+
+
+    ###########################################################################
+    def near_zero(self, value):
+        if abs(value) < .000001:
+            return True
+        else:
+            return False
 
 
     ###########################################################################
