@@ -676,11 +676,12 @@ class Ms3dExporter():
             frames_location = set()
             frames_rotation = set()
             frames_scale = set()
+            frames_other = set()
 
             if blender_action:
                 self.fill_keyframe_sets(
                         blender_action.fcurves,
-                        frames_location, frames_rotation, frames_scale,
+                        frames_location, frames_rotation, frames_scale, frames_other,
                         0)
 
             if blender_nla_tracks:
@@ -694,12 +695,13 @@ class Ms3dExporter():
                                 - strip.action_frame_start
                         self.fill_keyframe_sets(
                                 strip.action.fcurves,
-                                frames_location, frames_rotation, frames_scale,
+                                frames_location, frames_rotation, frames_scale, frames_other,
                                 frame_correction)
 
             frames = set(frames_location)
             frames = frames.union(frames_rotation)
             frames = frames.union(frames_scale)
+            # ignore frames_other
 
             if not self.options_shrink_to_keys:
                 frames = frames.intersection(range(
@@ -949,7 +951,7 @@ class Ms3dExporter():
     ###########################################################################
     def fill_keyframe_sets(self,
             fcurves,
-            frames_location, frames_rotation, frames_scale,
+            frames_location, frames_rotation, frames_scale, frames_other,
             frame_correction):
         for fcurve in fcurves:
             if fcurve.data_path.endswith(".location"):
@@ -961,7 +963,7 @@ class Ms3dExporter():
             elif fcurve.data_path.endswith(".scale"):
                 frames = frames_scale
             else:
-                pass
+                frames = frames_other
 
             for keyframe_point in fcurve.keyframe_points:
                 frames.add(int(keyframe_point.co[0] + frame_correction))
