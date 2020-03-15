@@ -58,19 +58,21 @@ else:
             )
 
 
-#import blender stuff
-from bpy.utils import (
-        register_module,
-        unregister_module,
-        )
+# import blender stuff
 from bpy.types import (
-        INFO_MT_file_export,
-        INFO_MT_file_import,
+        TOPBAR_MT_file_export,
+        TOPBAR_MT_file_import,
         )
 
+import bpy
 
 ###############################################################################
 # registration
+classes = (
+    Ms3dImportOperator,
+    Ms3dExportOperator
+)
+
 def register():
     ####################
     # F8 - key
@@ -81,17 +83,21 @@ def register():
 
     ms3d_ui.register()
 
-    register_module(__name__)
-    INFO_MT_file_export.append(Ms3dExportOperator.menu_func)
-    INFO_MT_file_import.append(Ms3dImportOperator.menu_func)
+    for cls in classes:
+        bpy.utils.register_class(cls)
+
+    TOPBAR_MT_file_export.append(Ms3dExportOperator.menu_func)
+    TOPBAR_MT_file_import.append(Ms3dImportOperator.menu_func)
 
 
 def unregister():
     ms3d_ui.unregister()
 
-    unregister_module(__name__)
-    INFO_MT_file_export.remove(Ms3dExportOperator.menu_func)
-    INFO_MT_file_import.remove(Ms3dImportOperator.menu_func)
+    TOPBAR_MT_file_export.remove(Ms3dExportOperator.menu_func)
+    TOPBAR_MT_file_import.remove(Ms3dImportOperator.menu_func)
+
+    for cls in classes:
+        bpy.utils.unregister_class(cls)
 
 
 ###############################################################################
