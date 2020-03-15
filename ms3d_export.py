@@ -209,8 +209,7 @@ class Ms3dExporter():
         source = (blender_context.view_layer.objects.active, )
 
         for blender_object in source:
-            if blender_object and blender_object.type == 'MESH' \
-                    and blender_object.is_visible(blender_context.scene):
+            if blender_object and blender_object.type == 'MESH':
                 blender_mesh_objects.append(blender_object)
 
         blender_to_ms3d_bones = {}
