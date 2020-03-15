@@ -50,8 +50,8 @@ from bpy import (
 
 ###############################################################################
 def enable_edit_mode(enable, blender_context):
-    if blender_context.active_object is None \
-            or not blender_context.active_object.type in {'MESH', 'ARMATURE', }:
+    if blender_context.view_layer.objects.active is None \
+            or not blender_context.view_layer.objects.active.type in {'MESH', 'ARMATURE', }:
         return
 
     if enable:
@@ -65,8 +65,8 @@ def enable_edit_mode(enable, blender_context):
 
 ###############################################################################
 def enable_pose_mode(enable, blender_context):
-    if blender_context.active_object is None \
-            or not blender_context.active_object.type in {'ARMATURE', }:
+    if blender_context.view_layer.objects.active is None \
+            or not blender_context.view_layer.objects.active.type in {'ARMATURE', }:
         return
 
     if enable:
@@ -103,7 +103,7 @@ def pre_setup_environment(porter, blender_context):
     blender_context.preferences.edit.use_global_undo = False
 
     # inject active_object to self
-    porter.active_object = blender_context.scene.objects.active
+    porter.active_object = blender_context.view_layer.objects.active
 
     # change to a well defined mode
     enable_edit_mode(True, blender_context)
@@ -118,11 +118,11 @@ def pre_setup_environment(porter, blender_context):
 ###############################################################################
 def post_setup_environment(porter, blender_context):
     # restore active object
-    blender_context.scene.objects.active = porter.active_object
+    blender_context.view_layer.objects.active = porter.active_object
 
-    if not blender_context.scene.objects.active \
+    if not blender_context.view_layer.objects.active \
             and blender_context.selected_objects:
-        blender_context.scene.objects.active \
+        blender_context.view_layer.objects.active \
                 = blender_context.selected_objects[0]
 
     # restore pre operator undo state

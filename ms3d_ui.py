@@ -558,10 +558,10 @@ class Ms3dExportOperator(Operator, ExportHelper):
     @classmethod
     def poll(cls, blender_context):
         return (blender_context
-                and blender_context.active_object
-                and blender_context.active_object.type in {'MESH', }
-                and blender_context.active_object.data
-                and blender_context.active_object.data.ms3d is not None
+                and blender_context.view_layer.objects.active
+                and blender_context.view_layer.objects.active.type in {'MESH', }
+                and blender_context.view_layer.objects.active.data
+                and blender_context.view_layer.objects.active.data.ms3d is not None
                 )
 
     # draw the option panel
@@ -847,7 +847,7 @@ class Ms3dMaterialOperator(Operator):
                 )
 
     def execute(self, blender_context):
-        blender_material = blender_context.active_object.active_material
+        blender_material = blender_context.view_layer.objects.active.active_material
         ms3d_material = blender_material.ms3d
 
         if self.mode == 'FROM_BLENDER':

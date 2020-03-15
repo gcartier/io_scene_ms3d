@@ -157,11 +157,11 @@ class Ms3dExporter():
 
             post_setup_environment(self, blender_context)
             # restore active object
-            blender_context.scene.objects.active = self.active_object
+            blender_context.view_layer.objects.active = self.active_object
 
-            if ((not blender_context.scene.objects.active)
+            if ((not blender_context.view_layer.objects.active)
                     and (blender_context.selected_objects)):
-                blender_context.scene.objects.active \
+                blender_context.view_layer.objects.active \
                         = blender_context.selected_objects[0]
 
             # restore pre operator undo state
@@ -206,7 +206,7 @@ class Ms3dExporter():
     def from_blender(self, blender_context, ms3d_model):
         blender_mesh_objects = []
 
-        source = (blender_context.active_object, )
+        source = (blender_context.view_layer.objects.active, )
 
         for blender_object in source:
             if blender_object and blender_object.type == 'MESH' \
@@ -273,8 +273,8 @@ class Ms3dExporter():
             blender_mesh_temp = blender_mesh_object.data.copy()
             blender_mesh_object_temp = blender_mesh_object.copy()
             blender_mesh_object_temp.data = blender_mesh_temp
-            blender_scene.objects.link(blender_mesh_object_temp)
-            blender_scene.objects.active = blender_mesh_object_temp
+            blender_scene.collection.objects.link(blender_mesh_object_temp)
+            blender_context.view_layer.objects.active = blender_mesh_object_temp
 
             # apply transform
             if self.options_apply_transform:
