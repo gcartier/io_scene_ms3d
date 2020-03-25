@@ -372,16 +372,15 @@ class Ms3dImportOperator(Operator, ImportHelper):
         layout = self.layout
 
         box = layout.box()
-        box.label(ms3d_str['LABEL_NAME_OPTIONS'], icon=Ms3dUi.ICON_OPTIONS)
+        box.label(text=ms3d_str['LABEL_NAME_OPTIONS']) # , icon=Ms3dUi.ICON_OPTIONS)
         box.prop(self, 'verbose', icon='SPEAKER')
 
         box = layout.box()
-        box.label(ms3d_str['LABEL_NAME_PROCESSING'],
-                icon=Ms3dUi.ICON_PROCESSING)
+        box.label(text=ms3d_str['LABEL_NAME_PROCESSING']) # , icon=Ms3dUi.ICON_PROCESSING)
         box.prop(self, 'use_extended_normal_handling')
 
         box = layout.box()
-        box.label(ms3d_str['LABEL_NAME_ANIMATION'], icon=Ms3dUi.ICON_ANIMATION)
+        box.label(text=ms3d_str['LABEL_NAME_ANIMATION']) # , icon=Ms3dUi.ICON_ANIMATION)
         box.prop(self, 'use_animation')
         if (self.use_animation):
             box.prop(self, 'rotation_mode', icon=Ms3dUi.ICON_ROTATION_MODE,
@@ -392,8 +391,7 @@ class Ms3dImportOperator(Operator, ImportHelper):
                 flow.prop(self, 'joint_size')
             box.prop(self, 'use_joint_to_bones')
             if (self.use_joint_to_bones):
-                box.box().label(ms3d_str['LABEL_NAME_JOINT_TO_BONES'],
-                        icon=Ms3dUi.ICON_ERROR)
+                box.box().label(text=ms3d_str['LABEL_NAME_JOINT_TO_BONES']) # , icon=Ms3dUi.ICON_ERROR)
 
     # entrypoint for MS3D -> blender
     def execute(self, blender_context):
@@ -570,24 +568,22 @@ class Ms3dExportOperator(Operator, ExportHelper):
 
         box = layout.box()
         flow = box.column_flow()
-        flow.label(ms3d_str['LABEL_NAME_OPTIONS'], icon=Ms3dUi.ICON_OPTIONS)
+        flow.label(text=ms3d_str['LABEL_NAME_OPTIONS']) # , icon=Ms3dUi.ICON_OPTIONS)
         flow.prop(self, 'verbose', icon='SPEAKER')
 
         box = layout.box()
         flow = box.column_flow()
-        flow.label(ms3d_str['LABEL_NAME_PROCESSING'],
-                icon=Ms3dUi.ICON_PROCESSING)
+        flow.label(text=ms3d_str['LABEL_NAME_PROCESSING']) # , icon=Ms3dUi.ICON_PROCESSING)
         row = flow.row()
-        row.label(ms3d_str['PROP_NAME_ACTIVE'], icon='ROTACTIVE')
-        row.label(blender_context.active_object.name)
+        row.label(text=ms3d_str['PROP_NAME_ACTIVE']) # , icon='ROTACTIVE')
+        row.label(text=blender_context.view_layer.objects.active.name)
         ##flow.prop(self, 'object_name')
         flow.prop(self, 'use_blender_names')
         flow.prop(self, 'use_blender_materials')
 
         box = layout.box()
         flow = box.column_flow()
-        flow.label(ms3d_str['LABEL_NAME_MODIFIER'],
-                icon=Ms3dUi.ICON_MODIFIER)
+        flow.label(text=ms3d_str['LABEL_NAME_MODIFIER']) # , icon=Ms3dUi.ICON_MODIFIER)
         flow.prop(self, 'apply_transform')
         row = flow.row()
         row.prop(self, 'apply_modifiers')
@@ -597,8 +593,7 @@ class Ms3dExportOperator(Operator, ExportHelper):
 
         box = layout.box()
         flow = box.column_flow()
-        flow.label(ms3d_str['LABEL_NAME_ANIMATION'],
-                icon=Ms3dUi.ICON_ANIMATION)
+        flow.label(text=ms3d_str['LABEL_NAME_ANIMATION']) # , icon=Ms3dUi.ICON_ANIMATION)
         flow.prop(self, 'use_animation')
         if (self.use_animation):
             flow.prop(self, 'normalize_weights')
