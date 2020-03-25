@@ -174,7 +174,7 @@ def rotation_matrix(v_track, v_up):
 ###############################################################################
 def matrix_difference(mat_src, mat_dst):
     mat_dst_inv = mat_dst.inverted()
-    return mat_dst_inv * mat_src
+    return mat_dst_inv @ mat_src
 
 
 ###############################################################################

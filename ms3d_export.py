@@ -351,7 +351,7 @@ class Ms3dExporter():
                     ms3d_vertex.__index = index
 
                     ms3d_vertex._vertex = self.geometry_correction(
-                            matrix_transform * bmv.co)
+                           matrix_transform @ bmv.co)
 
                     if self.options_use_animation and layer_deform:
                         blender_vertex_group_ids = bmv[layer_deform]
@@ -658,11 +658,11 @@ class Ms3dExporter():
                 if blender_bone.parent:
                     ms3d_joint.parent_name = blender_bone.parent.name
                     ms3d_joint.__matrix = matrix_difference(
-                            matrix_transform * blender_bone.matrix_local,
-                            matrix_transform * blender_bone.parent.matrix_local)
+                            matrix_transform @ blender_bone.matrix_local,
+                            matrix_transform @ blender_bone.parent.matrix_local)
                 else:
                     ms3d_joint.__matrix = base_bone_correction \
-                            * matrix_transform * blender_bone.matrix_local
+                            @ matrix_transform @ blender_bone.matrix_local
 
                 mat = ms3d_joint.__matrix
                 loc = mat.to_translation()
@@ -735,12 +735,13 @@ class Ms3dExporter():
                     ms3d_joint = blender_to_ms3d_bones[blender_bone_name]
 
                     m1 = blender_bone.matrix_local.inverted()
+                    m3 = blender_pose_bone.matrix.copy()
                     if blender_pose_bone.parent:
                         m2 = blender_pose_bone.parent.matrix_channel.inverted()
+                        m = ((m1 @ m2) @ m3)
                     else:
                         m2 = 1
-                    m3 = blender_pose_bone.matrix.copy()
-                    m = ((m1 * m2) * m3)
+                        m = ((m1 * m2) @ m3)
                     loc = m.to_translation()
                     rot = m.to_euler('XZY')
 

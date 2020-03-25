@@ -797,10 +797,10 @@ class Ms3dImporter():
                 ms3d_joint_by_name[ms3d_joint.name] = ms3d_joint
 
             matrix_local_rot = (Matrix.Rotation(ms3d_joint.rotation[2], 4, 'Z')
-                    * Matrix.Rotation(ms3d_joint.rotation[1], 4, 'Y')
-                    ) * Matrix.Rotation(ms3d_joint.rotation[0], 4, 'X')
+                    @ Matrix.Rotation(ms3d_joint.rotation[1], 4, 'Y')
+                    ) @ Matrix.Rotation(ms3d_joint.rotation[0], 4, 'X')
             matrix_local = Matrix.Translation(Vector(ms3d_joint.position)
-                    ) * matrix_local_rot
+                    ) @ matrix_local_rot
 
             ms3d_joint.__matrix_local_rot = matrix_local_rot
             ms3d_joint.__matrix_global_rot = matrix_local_rot
@@ -814,11 +814,11 @@ class Ms3dImporter():
                     ms3d_joint_parent.__children.append(ms3d_joint)
 
                     matrix_global = ms3d_joint_parent.__matrix_global \
-                            * matrix_local
+                            @ matrix_local
                     ms3d_joint.__matrix_global = matrix_global
 
                     matrix_global_rot = ms3d_joint_parent.__matrix_global_rot \
-                            * matrix_local_rot
+                            @ matrix_local_rot
                     ms3d_joint.__matrix_global_rot = matrix_global_rot
 
         ##########################
@@ -841,13 +841,13 @@ class Ms3dImporter():
             blender_armature.edit_bones.active = blender_edit_bone
 
             ms3d_joint = ms3d_joint_by_name[ms3d_joint.name]
-            ms3d_joint_vector = ms3d_joint.__matrix_global * Vector()
+            ms3d_joint_vector = ms3d_joint.__matrix_global @ Vector()
 
             blender_edit_bone.head \
                     = self.geometry_correction(ms3d_joint_vector)
 
-            vector_tail_end_up = ms3d_joint.__matrix_global_rot * Vector((0,1,0))
-            vector_tail_end_dir = ms3d_joint.__matrix_global_rot * Vector((0,0,1))
+            vector_tail_end_up = ms3d_joint.__matrix_global_rot @ Vector((0,1,0))
+            vector_tail_end_dir = ms3d_joint.__matrix_global_rot @ Vector((0,0,1))
             vector_tail_end_up.normalize()
             vector_tail_end_dir.normalize()
             blender_edit_bone.tail = blender_edit_bone.head \
@@ -940,7 +940,7 @@ class Ms3dImporter():
                 frame = (translation_key_frames.time * ms3d_model.animation_fps)
                 matrix_local = Matrix.Translation(
                         Vector(translation_key_frames.position))
-                v = (matrix_local) * Vector()
+                v = (matrix_local) @ Vector()
                 fcurve_location_x.keyframe_points.insert(frame, -v[0])
                 fcurve_location_y.keyframe_points.insert(frame, v[2])
                 fcurve_location_z.keyframe_points.insert(frame, v[1])
@@ -957,9 +957,9 @@ class Ms3dImporter():
                     matrix_local_rot = (
                             Matrix.Rotation(
                                     rotation_key_frames.rotation[2], 4, 'Y')
-                            * Matrix.Rotation(
+                            @ Matrix.Rotation(
                                     rotation_key_frames.rotation[1], 4, 'Z')
-                            ) * Matrix.Rotation(
+                            ) @ Matrix.Rotation(
                                     -rotation_key_frames.rotation[0], 4, 'X')
                     q = (matrix_local_rot).to_quaternion()
                     fcurve_rotation_w.keyframe_points.insert(frame, q.w)
