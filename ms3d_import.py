@@ -658,7 +658,7 @@ class Ms3dImporter():
         # end BMesh stuff
         ####################################################
 
-        blender_mesh.validate(self.options_verbose in Ms3dUi.VERBOSE_MAXIMAL)
+        blender_mesh.validate(verbose=self.options_verbose in Ms3dUi.VERBOSE_MAXIMAL)
 
         return blender_mesh_object
 
